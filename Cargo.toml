@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "bench",
+    "examples/bevy-reflect",
     "examples/bytes",
     "examples/diesel",
     "examples/macros",

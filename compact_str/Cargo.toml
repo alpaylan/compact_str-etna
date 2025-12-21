@@ -32,6 +32,7 @@ sqlx-mysql = ["sqlx", "sqlx/mysql"]
 sqlx-postgres = ["sqlx", "sqlx/postgres"]
 sqlx-sqlite = ["sqlx", "sqlx/sqlite"]
 zeroize = ["dep:zeroize"]
+bevy-reflect = ["dep:bevy_reflect", "serde"]
 utoipa = ["dep:utoipa", "std"]
 
 [dependencies]
@@ -48,6 +49,7 @@ serde = { version = "1", optional = true, default-features = false, features = [
 smallvec = { version = "1", optional = true, features = ["union"] }
 sqlx = { version = "0.8", optional = true, default-features = false }
 zeroize = { version = "1", optional = true, default-features = false }
+bevy_reflect = { version = "0.17.1", optional = true }
 utoipa = { version = "5", optional = true }
 
 castaway = { version = "0.2.3", default-features = false, features = ["alloc"] }
