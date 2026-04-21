@@ -221,7 +221,13 @@ impl Repr {
     #[inline]
     pub(crate) fn reserve(&mut self, additional: usize) -> Result<(), ReserveError> {
         let len = self.len();
-        let needed_capacity = len.checked_add(additional).ok_or(ReserveError(()))?;
+        /*| try_reserve_overflow_silent */
+        let needed_capacity = len . checked_add (additional) . ok_or (ReserveError (())) ?;
+        /*|| try_reserve_overflow_silent_ae5f2bc_1 */
+        /*|
+        let needed_capacity = len + additional;
+        */
+        /* |*/
 
         if !self.is_static_str() && needed_capacity <= self.capacity() {
             // we already have enough space, no-op

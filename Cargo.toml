@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "bench",
+    "compact_str",
     "examples/bevy-reflect",
     "examples/bytes",
     "examples/diesel",
@@ -11,6 +12,5 @@ members = [
     "examples/utoipa",
     "fuzz",
 ]
-exclude = ["compact_str"]
 
 resolver = "2"

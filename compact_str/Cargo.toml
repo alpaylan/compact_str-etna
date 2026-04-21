@@ -13,7 +13,10 @@ keywords = ["string", "compact", "small", "memory", "mutable"]
 categories = ["encoding", "parsing", "memory-management", "text-processing"]
 
 [features]
-default = ["std"]
+# ETNA workload: default set pulls in the `etna` feature so that
+# `cargo build --bin etna` at the workload root just works. To consume
+# compact_str without ETNA framework deps, use `default-features = false`.
+default = ["std", "etna"]
 std = []
 
 arbitrary = ["dep:arbitrary"]
@@ -35,6 +38,27 @@ sqlx-sqlite = ["sqlx", "sqlx/sqlite"]
 utoipa = ["dep:utoipa", "std"]
 zeroize = ["dep:zeroize"]
 
+# ETNA integration: pulls in proptest/quickcheck plus the framework crates
+# so the src/bin/etna.rs runner can exercise all four PBT frameworks.
+etna = [
+    "std",
+    "proptest",
+    "quickcheck",
+    "dep:crabcheck",
+    "dep:hegeltest",
+    "dep:rand_etna",
+]
+
+[[bin]]
+name = "etna"
+path = "src/bin/etna.rs"
+required-features = ["etna"]
+
+[[test]]
+name = "etna_witnesses"
+path = "tests/etna_witnesses.rs"
+required-features = ["etna"]
+
 [dependencies]
 arbitrary = { version = "1", optional = true, default-features = false }
 bevy_reflect = { version = "0.17.1", optional = true }
@@ -46,7 +70,7 @@ markup = { version = "0.15", optional = true, default-features = false }
 proptest = { version = "1", optional = true, default-features = false, features = [
     "std",
 ] }
-quickcheck = { version = "1", optional = true, default-features = false }
+quickcheck = { path = "/Users/akeles/Programming/projects/PbtBenchmark/quickcheck", optional = true, default-features = false, features = ["etna"] }
 rkyv = { version = "0.8", optional = true, default-features = false }
 serde = { version = "1", optional = true, default-features = false, features = [
     "derive",
@@ -56,6 +80,13 @@ smallvec = { version = "1", optional = true, features = ["union"] }
 sqlx = { version = "0.8", optional = true, default-features = false }
 utoipa = { version = "5", optional = true }
 zeroize = { version = "1", optional = true, default-features = false }
+
+# ETNA framework deps — activated by the `etna` feature, linked by
+# src/bin/etna.rs. The quickcheck dep is intentionally the etna-fork at the
+# local path and supplies the `quickcheck` optional dep above.
+crabcheck = { path = "/Users/akeles/Programming/projects/PbtBenchmark/crabcheck", optional = true }
+hegeltest = { version = "0.3.7", optional = true }
+rand_etna = { package = "rand", version = "0.9", optional = true }
 
 castaway = { version = "0.2.3", default-features = false, features = ["alloc"] }
 cfg-if = "1"
@@ -67,7 +98,7 @@ static_assertions = "1"
 [dev-dependencies]
 cfg-if = "1"
 proptest = { version = "1", default-features = false, features = ["std"] }
-quickcheck = { version = "1", default-features = false }
+quickcheck = { path = "/Users/akeles/Programming/projects/PbtBenchmark/quickcheck", default-features = false, features = ["etna"] }
 quickcheck_macros = "1"
 rayon = "1"
 rkyv = { version = "0.8.8" }

@@ -12,3 +12,8 @@ hfuzz_target/**
 
 # VSCode
 .vscode/**
+
+# ETNA hegel runtime artifacts
+.hegel/
+# ETNA workload generation progress log
+progress.jsonl
