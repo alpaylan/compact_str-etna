@@ -1,0 +1,65 @@
+# ETNA workload index for compact_str.
+#
+# One [[variant]] per injected mutation. Source of truth for variant->property
+# mapping. Every other fact is derivable from the source tree:
+#   - marauders list --path compact_str                   (marauder mutations)
+#   - grep -rn "pub fn property_" compact_str/src/etna.rs (property fns)
+#   - grep -rn "fn witness_.*_case_" compact_str/tests/   (witness tests)
+#
+# Base commit for this workload is a9f7181f ("etna: scaffold framework-neutral
+# property module + runner") on main. Every etna/<variant> branch is base +
+# exactly one marauder converted to its functional form.
+#
+# Candidate commits dropped from this workload (terminal reasons):
+#   - pre-0.6  Repr rework / NonMaxU8 introduction           → surface removed by repr redesign
+#   - pre-0.5  "Packed" repr + `from_utf8` panics            → Packed variant gone
+#   - pre-0.4  inline-buffer layout fixes (LastByte not yet) → LastByte niche changed discriminants
+#   - pre-0.4  `CompactStr` rename → `CompactString`         → API rename, no surface here
+#   - `TraitsV2` migration (Deref removal, into_string, etc) → API-shape reshape, no observable bug
+#   - bytes/borsh/rkyv/serde/diesel/sqlx feature fixes       → optional integration only
+#   - fuzz-harness-only fixes (fuzz/fuzz_targets/*)          → not in crate surface
+#   - 102 earlier "fix" commits                              → either pure-cleanup or too
+#                                                              narrowly scoped to reproduce
+#                                                              with Arbitrary-style inputs
+
+name = "compact_str"
+language = "Rust"
+
+[workload]
+name = "compact_str"
+crate = "compact_str"
+language = "rust"
+description = """
+ETNA workload for the Rust `compact_str` crate (CompactString, an inline+heap
+SSO string). Each variant re-introduces one historical bug-fix into a fresh
+patched branch and pairs it with a framework-neutral property, four PBT
+adapters, and a deterministic witness test.
+"""
+
+[runner]
+bin = "etna"
+cargo_features = ["etna"]
+
+[[variant]]
+name = "try_reserve_overflow_silent_ae5f2bc_1"
+property = "try_reserve_overflow_returns_err"
+injection = "marauders"
+source_commit = "ae5f2bcfc67df52b6dc9e05a0a95edbd2a52dbd8"
+witnesses = [
+    "witness_try_reserve_overflow_returns_err_case_from_nonempty_max",
+    "witness_try_reserve_overflow_returns_err_case_from_16char_near_max",
+]
+frameworks = ["proptest", "quickcheck", "crabcheck", "hegel"]
+files = ["compact_str/src/repr/mod.rs"]
+
+[[variant]]
+name = "retain_leaves_stale_len_on_panic_042b64a_1"
+property = "retain_panic_preserves_utf8"
+injection = "marauders"
+source_commit = "042b64a4f8d91ea7bd3bce54ed086bf7b2f9bfdd"
+witnesses = [
+    "witness_retain_panic_preserves_utf8_case_panic_mid_ascii",
+    "witness_retain_panic_preserves_utf8_case_panic_first_char",
+]
+frameworks = ["proptest", "quickcheck", "crabcheck", "hegel"]
+files = ["compact_str/src/lib.rs"]
