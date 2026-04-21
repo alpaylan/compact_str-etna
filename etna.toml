@@ -13,7 +13,7 @@
 # Candidate commits dropped from this workload (terminal reasons):
 #   - pre-0.6  Repr rework / NonMaxU8 introduction           → surface removed by repr redesign
 #   - pre-0.5  "Packed" repr + `from_utf8` panics            → Packed variant gone
-#   - pre-0.4  inline-buffer layout fixes (LastByte not yet) → LastByte niche changed discriminants
+#   - pre-0.4  inline-buffer layout fixes (pre-LastByte)    → LastByte niche changed discriminants
 #   - pre-0.4  `CompactStr` rename → `CompactString`         → API rename, no surface here
 #   - `TraitsV2` migration (Deref removal, into_string, etc) → API-shape reshape, no observable bug
 #   - bytes/borsh/rkyv/serde/diesel/sqlx feature fixes       → optional integration only
