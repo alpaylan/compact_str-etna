@@ -17,3 +17,7 @@ hfuzz_target/**
 .hegel/
 # ETNA workload generation progress log
 progress.jsonl
+# ETNA marauder + migration state
+.marauders/
+.migration-cache/
+etna.log
