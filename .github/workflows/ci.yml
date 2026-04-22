@@ -20,7 +20,7 @@ jobs:
     name: cargo check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install toolchain
         run: rustup toolchain install ${{ env.RUST_VERSION }} --no-self-update --profile minimal
@@ -40,7 +40,7 @@ jobs:
     name: cargo test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install toolchain
         run: |
@@ -60,7 +60,7 @@ jobs:
     name: cargo miri test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install toolchain
         run: |
@@ -81,7 +81,7 @@ jobs:
     env:
       RUSTFLAGS: -Zrandomize-layout
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install toolchain
         run: |
@@ -104,7 +104,7 @@ jobs:
       matrix:
         ex: ["bytes", "macros", "serde", "traits"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install toolchain
         run: |
@@ -125,7 +125,7 @@ jobs:
       matrix:
         ex: ["diesel", "sqlx"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install toolchain
         run: |
