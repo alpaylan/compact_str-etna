@@ -70,7 +70,7 @@ markup = { version = "0.15", optional = true, default-features = false }
 proptest = { version = "1", optional = true, default-features = false, features = [
     "std",
 ] }
-quickcheck = { path = "/Users/akeles/Programming/projects/PbtBenchmark/quickcheck", optional = true, default-features = false, features = ["etna"] }
+quickcheck = { git = "https://github.com/alpaylan/quickcheck.git", branch = "master", optional = true, default-features = false, features = ["etna"] }
 rkyv = { version = "0.8", optional = true, default-features = false }
 serde = { version = "1", optional = true, default-features = false, features = [
     "derive",
@@ -84,7 +84,7 @@ zeroize = { version = "1", optional = true, default-features = false }
 # ETNA framework deps — activated by the `etna` feature, linked by
 # src/bin/etna.rs. The quickcheck dep is intentionally the etna-fork at the
 # local path and supplies the `quickcheck` optional dep above.
-crabcheck = { path = "/Users/akeles/Programming/projects/PbtBenchmark/crabcheck", optional = true }
+crabcheck = { git = "https://github.com/alpaylan/crabcheck.git", branch = "main", optional = true }
 hegeltest = { version = "0.3.7", optional = true }
 rand_etna = { package = "rand", version = "0.9", optional = true }
 
@@ -98,7 +98,7 @@ static_assertions = "1"
 [dev-dependencies]
 cfg-if = "1"
 proptest = { version = "1", default-features = false, features = ["std"] }
-quickcheck = { path = "/Users/akeles/Programming/projects/PbtBenchmark/quickcheck", default-features = false, features = ["etna"] }
+quickcheck = { git = "https://github.com/alpaylan/quickcheck.git", branch = "master", default-features = false, features = ["etna"] }
 quickcheck_macros = "1"
 rayon = "1"
 rkyv = { version = "0.8.8" }
