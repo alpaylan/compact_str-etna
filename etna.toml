@@ -6,6 +6,7 @@ patched branch and pairs it with a framework-neutral property, four PBT
 adapters, and a deterministic witness test.
 """
 language = "rust"
+strategies = ["proptest", "quickcheck", "crabcheck", "hegel"]
 crate = "compact_str"
 base_commit = "a9f7181fcc2b1c8d0a765e5aead17f0403447144"
 
