@@ -20,7 +20,8 @@ commit_subjects = ["Check for overflow in `reserve()`"]
 summary = "`Repr::reserve(additional)` computed `len + additional` with wrapping `usize` arithmetic, so an additive overflow produced a tiny capacity that pretended to fit. The fix replaces the addition with `checked_add` and propagates the overflow as `ReserveError`, letting `try_reserve` return `Err` instead of silently under-allocating."
 
 [tasks.injection]
-kind = "marauders"
+kind = "patch"
+patch = "patches/try_reserve_overflow_silent_ae5f2bc_1.patch"
 files = ["compact_str/src/repr/mod.rs"]
 locations = [{ file = "compact_str/src/repr/mod.rs", line = 224, symbol = "Repr::reserve" }]
 
@@ -47,7 +48,8 @@ prs = [413]
 summary = "`CompactString::retain` only called `self.set_len(dest_idx)` at the end of the loop. If the user predicate panicked, the unwind bypassed that call and left the string reporting its original length and bytes, diverging from `std::string::String::retain`'s unwind-safety contract. The fix wraps the loop in a `SetLenOnDrop` guard."
 
 [tasks.injection]
-kind = "marauders"
+kind = "patch"
+patch = "patches/retain_leaves_stale_len_on_panic_042b64a_1.patch"
 files = ["compact_str/src/lib.rs"]
 locations = [{ file = "compact_str/src/lib.rs", line = 1217, symbol = "CompactString::retain" }]
 

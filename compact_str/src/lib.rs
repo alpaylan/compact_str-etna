@@ -1214,7 +1214,6 @@ impl CompactString {
     /// ```
     pub fn retain(&mut self, mut predicate: impl FnMut(char) -> bool) {
         // We iterate over the string, and copy character by character.
-        /*| retain_leaves_stale_len_on_panic */
         {
             struct SetLenOnDrop<'a> {
                 self_: &'a mut CompactString,
@@ -1249,30 +1248,6 @@ impl CompactString {
             }
             drop(g);
         }
-        /*|| retain_leaves_stale_len_on_panic_042b64a_1 */
-        /*|
-        {
-            let s = self.as_mut_str();
-            let mut dest_idx = 0;
-            let mut src_idx = 0;
-            while let Some(ch) = s[src_idx..].chars().next() {
-                let ch_len = ch.len_utf8();
-                if predicate(ch) {
-                    // SAFETY: We know that both indices are valid, and that we don't split a char.
-                    unsafe {
-                        let p = s.as_mut_ptr();
-                        core::ptr::copy(p.add(src_idx), p.add(dest_idx), ch_len);
-                    }
-                    dest_idx += ch_len;
-                }
-                src_idx += ch_len;
-            }
-
-            // SAFETY: We know that the index is a valid position to break the string.
-            unsafe { self.set_len(dest_idx) };
-        }
-        */
-        /* |*/
     }
 
     /// Decode a bytes slice as UTF-8 string, replacing any illegal codepoints

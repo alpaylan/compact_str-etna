@@ -1,0 +1,13 @@
+# marauders: name=try_reserve_overflow_silent
+diff --git a/compact_str/src/repr/mod.rs b/compact_str/src/repr/mod.rs
+--- a/compact_str/src/repr/mod.rs
++++ b/compact_str/src/repr/mod.rs
+@@ -221,7 +221,7 @@
+     #[inline]
+     pub(crate) fn reserve(&mut self, additional: usize) -> Result<(), ReserveError> {
+         let len = self.len();
+-        let needed_capacity = len . checked_add (additional) . ok_or (ReserveError (())) ?;
++        let needed_capacity = len + additional;
+ 
+         if !self.is_static_str() && needed_capacity <= self.capacity() {
+             // we already have enough space, no-op
